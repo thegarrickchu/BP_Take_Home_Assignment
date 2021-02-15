@@ -11,7 +11,7 @@ parser.add_argument("string2", help="second string to evaluate",
 
 args = parser.parse_args()
 
-def longest_common_subsequence(str1: "string", str2: "string") -> list:
+def longest_common_subsequence(str1: "string", str2: "string"):
     #get length of each string
     m = len(str1)
     n = len(str2)
@@ -32,7 +32,7 @@ def longest_common_subsequence(str1: "string", str2: "string") -> list:
                 length_lcs[i][j] = 0
             elif str1[i-1] == str2[j-1]: #case when there is a element match, increment the previous length_lcs by 1
                 length_lcs[i][j] = length_lcs[i-1][j-1] + 1
-            else: # the case where this is no match
+            else: # the case where there is no match
                 length_lcs[i][j] = max(length_lcs[i-1][j], length_lcs[i][j-1])
     
     """
@@ -46,9 +46,8 @@ def longest_common_subsequence(str1: "string", str2: "string") -> list:
     #instantiate an array with length of the longest common subsequence to store the common elements
     lcs = [""] * (pointer+1)
     
-    #working from the bottom-right of the 2-d array, length_lcs, and then store that element
-    p = m
-    q = n
+    #copy lengths of strings so they can be incremented for below while loop
+    p, q = m, n
     
     while p > 0 and q > 0:
         if str1[p-1] == str2[q-1]: #if the str1 char matches the str2 character, then it is part of the longest common subsequence
@@ -61,7 +60,6 @@ def longest_common_subsequence(str1: "string", str2: "string") -> list:
         #if not the same, find the larger value of 2 adjacent elements of 2-d array, length_lcs and return corresponding element. This prevents double entry of the matching elements
         elif length_lcs[p-1][q] > length_lcs[p][q-1]:
             p -= 1
-            
         else:
             q -= 1
             
